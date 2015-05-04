@@ -1,0 +1,39 @@
+# Look here for more config file examples:
+# https://github.com/rlidwka/sinopia/tree/master/conf
+#
+
+# path to a directory with all packages
+storage: {{ sinopia_storage }}
+
+auth:
+  htpasswd:
+    file: {{ sinopia_config }}/users
+    max_users: {{ sinopia_max_users }}
+
+# a list of other known repositories we can talk to
+uplinks:
+{% for uplink in sinopia_uplinks %}
+  '{{ uplink.name }}':
+    url: '{{ uplink.url }}'
+{% endfor %}
+
+packages:
+{% for pkg in sinopia_packages %}
+  '{{ pkg.name }}':
+{% if 'access' in pkg %}
+    access: {{ pkg.access }}
+{% endif %}
+{% if 'publish' in pkg %}
+    publish: {{ pkg.publish }}
+{% endif %}
+{% if 'proxy' in pkg %}
+    proxy: {{ pkg.proxy }}
+{% endif %}
+{% endfor %}
+
+# log settings
+logs:
+  - {type: stdout, format: pretty, level: http}
+
+listen:
+  - {{ sinopia_host }}:{{ sinopia_port }}

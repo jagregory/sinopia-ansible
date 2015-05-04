@@ -1,0 +1,18 @@
+sinopia_config: '/etc/sinopia'
+sinopia_host: localhost
+sinopia_htpasswd: ''
+sinopia_manage_users: no
+sinopia_max_users: .inf
+sinopia_port: 4873
+sinopia_storage: '/var/sinopia'
+sinopia_user: sinopia
+sinopia_version: 1.2.2
+
+sinopia_uplinks:
+  - name: npmjs
+    url: https://registry.npmjs.org/
+
+sinopia_packages:
+  - name: '*'
+    access: '$anonymous'
+    publish: '$authenticated'

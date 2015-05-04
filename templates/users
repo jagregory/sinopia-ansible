@@ -1,0 +1,8 @@
+# ansible managed and generated
+{% if sinopia_htpasswd is mapping %}
+{% for username,password in sinopia_htpasswd.items() %}
+{{ username }}:{{ password }}
+{% endfor %}
+{% else %}
+{{ sinopia_htpasswd }}
+{% endif %}

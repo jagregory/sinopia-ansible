@@ -1,0 +1,29 @@
+- name: Install sinopia
+  npm: name=sinopia global=true version={{ sinopia_version }}
+
+- name: Create sinopia group
+  user: name={{ sinopia_user }}
+
+- name: Create sinopia user
+  user: name={{ sinopia_user }} group={{ sinopia_user }} system=yes
+
+- name: Create config directory
+  file: path={{ sinopia_config }} state=directory owner={{ sinopia_user }} group={{ sinopia_user }}
+
+- name: Create data directory
+  file: path={{ sinopia_storage }} state=directory owner={{ sinopia_user }} group={{ sinopia_user }}
+
+- name: Copy configuration
+  template: src=config.yaml dest={{ sinopia_config }}/config.yaml owner={{ sinopia_user }} group={{ sinopia_user }}
+  notify: restart sinopia
+
+- name: Copy NPM users
+  template: src=users dest={{ sinopia_config }}/users owner={{ sinopia_user }} group={{ sinopia_user }}
+  when: sinopia_manage_users
+
+- name: Copy Upstart script
+  template: src=upstart.conf dest=/etc/init/sinopia.conf
+  notify: restart sinopia
+
+- name: Start Sinopia
+  service: name=sinopia state=started
