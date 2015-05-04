@@ -45,3 +45,7 @@ user2: {SHA}b12edasfa...
   access: '$anonymous'
   publish: '$authenticated'
 ```
+
+## Vagrant
+
+Run `vagrant up` to launch a local Sinopia instance exposed on port `4873`.
