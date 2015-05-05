@@ -48,4 +48,8 @@ user2: {SHA}b12edasfa...
 
 ## Vagrant
 
-Run `vagrant up` to launch a local Sinopia instance exposed on port `4873`.
+To launch a local Sinopia exposed on port `4873` run:
+
+    ansible-galaxy install -r requirements.txt
+    vagrant up
+
