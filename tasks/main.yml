@@ -2,7 +2,7 @@
   npm: name=sinopia global=true version={{ sinopia_version }}
 
 - name: Create sinopia group
-  user: name={{ sinopia_user }}
+  group: name={{ sinopia_user }}
 
 - name: Create sinopia user
   user: name={{ sinopia_user }} group={{ sinopia_user }} system=yes
