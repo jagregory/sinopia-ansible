@@ -31,6 +31,10 @@ packages:
 {% endif %}
 {% endfor %}
 
+{% if sinopia_url_prefix is defined %}
+url_prefix: {{ sinopia_url_prefix }}
+{% endif %}
+
 # log settings
 logs:
   - {type: stdout, format: pretty, level: http}

@@ -22,6 +22,8 @@ NodeJS is required, tested with `nodesource.node`.
 
 `sinopia_max_users`: Number of users allowed to register (default: `.inf`)
 
+`sinopia_url_prefix`: Prefix for urls if it differs from the host.
+
 `sinopia_htpasswd`: The htpasswd file which Sinopia uses to store users. This key can either be the string contents of the htpasswd file, or key/value pairs of username/password. To manage Sinopia users with this setting, make sure `sinopia_manage_users` is set to `yes`.
 
 ```yaml
@@ -52,4 +54,3 @@ To launch a local Sinopia exposed on port `4873` run:
 
     ansible-galaxy install -r requirements.txt
     vagrant up
-
