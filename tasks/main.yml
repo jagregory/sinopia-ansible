@@ -21,9 +21,21 @@
   template: src=users dest={{ sinopia_config }}/users owner={{ sinopia_user }} group={{ sinopia_user }}
   when: sinopia_manage_users
 
+- name: Check if systemctl configuration exists
+  stat: path=/usr/lib/systemd/system
+  register: using_systemctl
+
 - name: Copy Upstart script
   template: src=upstart.conf dest=/etc/init/sinopia.conf
   notify: restart sinopia
+  when: using_systemctl.stat.exists == false
+
+- name: Copy systemctl service file
+  template: src=sinopia.service dest=/usr/lib/systemd/system/sinopia.service
+  notify:
+    - sinopia reload systemd
+    - restart sinopia
+  when: using_systemctl.stat.exists
 
 - name: Start Sinopia
   service: name=sinopia state=started
