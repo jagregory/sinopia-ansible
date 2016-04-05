@@ -41,7 +41,5 @@ user2: {SHA}b12edasfa...
 ```
 
 ## Vagrant
-To launch a local Sinopia exposed on port `4873` run:
-
-    ansible-galaxy install -r requirements.txt
-    vagrant up
+To launch a local Sinopia exposed on port `4873` (Ubuntu) or `4874` (CentOS), `cd ` into `tests` run:  
+`vagrant up`
