@@ -33,7 +33,7 @@
 
 - name: Copy configuration
   template:
-    src: config.yaml
+    src: config.yaml.j2
     dest: "{{ sinopia_config }}/config.yaml"
     owner: "{{ sinopia_user }}"
     group: "{{ sinopia_user }}"
@@ -41,7 +41,7 @@
 
 - name: Copy NPM users
   template:
-    src: users
+    src: users.j2
     dest: "{{ sinopia_config }}/users"
     owner: "{{ sinopia_user }}"
     group: "{{ sinopia_user }}"
@@ -49,7 +49,7 @@
 
 - name: Copy Upstart script
   template:
-    src: upstart.conf
+    src: upstart.conf.j2
     dest: /etc/init/sinopia.conf
   notify: restart sinopia
 
