@@ -1,4 +1,4 @@
-# ansible managed and generated
+{{ ansible_managed|comment }}
 {% if sinopia_htpasswd is mapping %}
 {% for username,password in sinopia_htpasswd.items() %}
 {{ username }}:{{ password }}

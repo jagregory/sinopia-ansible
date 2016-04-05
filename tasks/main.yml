@@ -1,3 +1,25 @@
+---
+- include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Ensure NodeJS/npm are installed [Debian]
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  with_items:
+    - nodejs
+    - npm
+  when: ansible_os_family == 'Debian'
+
+- name: Ensure NodeJS/npm are installed [EL]
+  yum:
+    name: "{{ item }}"
+    state: present
+  when: ansible_os_family == 'RedHat'
+  with_items:
+    - nodejs
+    - npm
+
 - name: Install sinopia
   npm:
     name: sinopia
@@ -7,13 +29,13 @@
 
 - name: Create sinopia group
   group:
-    name: "{{ sinopia_user }}"
+    name: "{{ sinopia_group }}"
     state: present
 
 - name: Create sinopia user
   user:
     name: "{{ sinopia_user }}"
-    group: "{{ sinopia_user }}"
+    group: "{{ sinopia_group }}"
     system: true
     state: present
 
@@ -21,14 +43,14 @@
   file:
     path: "{{ sinopia_config }}"
     owner: "{{ sinopia_user }}"
-    group: "{{ sinopia_user }}"
+    group: "{{ sinopia_group }}"
     state: directory
 
 - name: Create data directory
   file:
     path: "{{ sinopia_storage }}"
     owner: "{{ sinopia_user }}"
-    group: "{{ sinopia_user }}"
+    group: "{{ sinopia_group }}"
     state: directory
 
 - name: Copy configuration
@@ -36,7 +58,7 @@
     src: config.yaml.j2
     dest: "{{ sinopia_config }}/config.yaml"
     owner: "{{ sinopia_user }}"
-    group: "{{ sinopia_user }}"
+    group: "{{ sinopia_group }}"
   notify: restart sinopia
 
 - name: Copy NPM users
@@ -44,14 +66,20 @@
     src: users.j2
     dest: "{{ sinopia_config }}/users"
     owner: "{{ sinopia_user }}"
-    group: "{{ sinopia_user }}"
+    group: "{{ sinopia_group }}"
   when: sinopia_manage_users
 
-- name: Copy Upstart script
+- name: Deploy Sinopia service manifest
   template:
-    src: upstart.conf.j2
-    dest: /etc/init/sinopia.conf
+    src: "{{ sinopia_service_manifest['src'] }}"
+    dest: "{{ sinopia_service_manifest['dest'] }}"
+  register: sinopia_service_manifest
   notify: restart sinopia
+
+- name: Reload systemd service configuration [EL]
+  shell: systemctl daemon-reload
+  when: (sinopia_service_manifest['changed'])
+        and (ansible_os_family == 'RedHat')
 
 - name: Start Sinopia
   service:

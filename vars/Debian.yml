@@ -1,0 +1,4 @@
+---
+sinopia_service_manifest:
+  src: upstart.conf.j2
+  dest: /etc/init/sinopia.conf

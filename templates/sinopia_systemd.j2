@@ -1,0 +1,12 @@
+{{ ansible_managed|comment }}
+[Unit]
+Description=Sinopia NPM cache & private repo server
+
+[Service]
+ExecStart=/usr/bin/sinopia -c {{ sinopia_config }}/config.yaml
+Type=simple
+User={{ sinopia_user }}
+Group={{ sinopia_user }}
+
+[Install]
+WantedBy=multi-user.target

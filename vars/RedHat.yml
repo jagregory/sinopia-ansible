@@ -1,0 +1,4 @@
+---
+sinopia_service_manifest:
+  src: sinopia_systemd.j2
+  dest: /usr/lib/systemd/system/sinopia.service

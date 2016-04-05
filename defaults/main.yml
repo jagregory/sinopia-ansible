@@ -1,3 +1,4 @@
+---
 sinopia_config: '/etc/sinopia'
 sinopia_host: localhost
 sinopia_htpasswd: ''
@@ -6,7 +7,8 @@ sinopia_max_users: .inf
 sinopia_port: 4873
 sinopia_storage: '/var/sinopia'
 sinopia_user: sinopia
-sinopia_version: 1.2.2
+sinopia_group: sinopia
+sinopia_version: 1.4.0
 
 sinopia_uplinks:
   - name: npmjs
