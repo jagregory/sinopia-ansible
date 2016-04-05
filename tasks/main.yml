@@ -1,29 +1,60 @@
 - name: Install sinopia
-  npm: name=sinopia global=true version={{ sinopia_version }}
+  npm:
+    name: sinopia
+    global: true
+    version: "{{ sinopia_version }}"
+    state: present
 
 - name: Create sinopia group
-  group: name={{ sinopia_user }}
+  group:
+    name: "{{ sinopia_user }}"
+    state: present
 
 - name: Create sinopia user
-  user: name={{ sinopia_user }} group={{ sinopia_user }} system=yes
+  user:
+    name: "{{ sinopia_user }}"
+    group: "{{ sinopia_user }}"
+    system: true
+    state: present
 
 - name: Create config directory
-  file: path={{ sinopia_config }} state=directory owner={{ sinopia_user }} group={{ sinopia_user }}
+  file:
+    path: "{{ sinopia_config }}"
+    owner: "{{ sinopia_user }}"
+    group: "{{ sinopia_user }}"
+    state: directory
 
 - name: Create data directory
-  file: path={{ sinopia_storage }} state=directory owner={{ sinopia_user }} group={{ sinopia_user }}
+  file:
+    path: "{{ sinopia_storage }}"
+    owner: "{{ sinopia_user }}"
+    group: "{{ sinopia_user }}"
+    state: directory
 
 - name: Copy configuration
-  template: src=config.yaml dest={{ sinopia_config }}/config.yaml owner={{ sinopia_user }} group={{ sinopia_user }}
+  template:
+    src: config.yaml
+    dest: "{{ sinopia_config }}/config.yaml"
+    owner: "{{ sinopia_user }}"
+    group: "{{ sinopia_user }}"
   notify: restart sinopia
 
 - name: Copy NPM users
-  template: src=users dest={{ sinopia_config }}/users owner={{ sinopia_user }} group={{ sinopia_user }}
+  template:
+    src: users
+    dest: "{{ sinopia_config }}/users"
+    owner: "{{ sinopia_user }}"
+    group: "{{ sinopia_user }}"
   when: sinopia_manage_users
 
 - name: Copy Upstart script
-  template: src=upstart.conf dest=/etc/init/sinopia.conf
+  template:
+    src: upstart.conf
+    dest: /etc/init/sinopia.conf
   notify: restart sinopia
 
 - name: Start Sinopia
-  service: name=sinopia state=started
+  service:
+    name: sinopia
+    state: started
+    enabled: true
