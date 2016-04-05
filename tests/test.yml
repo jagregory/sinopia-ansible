@@ -1,0 +1,8 @@
+---
+- hosts: sinopia_servers
+
+  vars:
+    sinopia_host: '0.0.0.0'
+
+  roles:
+    - ../../sinopia-ansible
