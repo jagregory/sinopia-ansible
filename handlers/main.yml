@@ -1,2 +1,7 @@
+---
+- name: sinopia reload systemd
+  become: yes
+  command: systemctl daemon-reload
+
 - name: restart sinopia
   service: name=sinopia state=restarted

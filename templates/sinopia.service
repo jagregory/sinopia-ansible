@@ -1,0 +1,12 @@
+[Unit]
+Description=Sinopia server daemon
+Documentation=
+After=network.target
+Wants=
+
+[Service]
+ExecStart=/usr/bin/sinopia -c {{ sinopia_config }}/config.yaml
+Restart=always
+User={{ sinopia_user }}
+Group={{ sinopia_user }}
+WorkingDirectory={{ sinopia_config }}
